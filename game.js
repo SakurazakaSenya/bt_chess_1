@@ -7,7 +7,7 @@ export default class Game {
             this.board.push([]);
             for (let j = 0; j<8; j++) {
                 this.board[i].push(null);
-            }   
+            }
         }
         this.castle = [true, true, true, true]; //Castling order goes [K,Q,k,q]
         this.turn = true;
@@ -58,7 +58,7 @@ export default class Game {
             }
             string += "/";
         }
-        string += " "
+        /*string += " "
         if (this.turn) {
             string += "w";
         }
@@ -98,6 +98,7 @@ export default class Game {
         string += " ";
         string += this.halfmove + " " + this.fullmove;
         return string;
+        */
     }
 
     startgame() { //should be done? not sure if it works though
