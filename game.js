@@ -359,11 +359,13 @@ export default class Game {
             if (this.board[i][0] != null) {
                 if (this.board[i][0].pieceType == 'p') {
                     this.board[i][0] = new piece(destination[4]);
+                    console.log(destination[4]);
                 }
             }
             if (this.board[i][7] != null) {
                 if (this.board[i][7].pieceType == 'P') {
                     this.board[i][7] = new piece(desination[4]);
+                    console.log(destination[4]);
                 }
             }
         }
