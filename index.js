@@ -1,11 +1,32 @@
-import './style.css'
+import ChessBoard from './chessboard';
+import Game from './game.js';
+import './style.css';
 
-import ChessBoard from './chessboard'
+let game = new Game();
+game.initialize();
 
-const board = ChessBoard('chessboard', {
+
+var board = ChessBoard('chessboard', {
     draggable: false
 });
+let pos = game.getFEN();
+board.position(pos);
 
+document.getElementById('input').onkeypress = function(e) {
+    if (e.keyCode == 13) {
+        entered(document.getElementById('input').value);
+        document.getElementById('input').value = "";
+    }
+};
+function entered(input) {
+    console.log(input)
+    game.enter(input);
+    //game.printPos();
+    board.position(game.getFEN());
+}
+    
+
+//Bluetooth
 const serviceUUID = 0xFFE0;
 const serialUUID = 0xFFE1;
 
@@ -15,7 +36,7 @@ let serialCharacteristic;
 async function connect(){
 
     device = await navigator.bluetooth.requestDevice({
-        filters: [{ 
+        filters: [{
             services: [serviceUUID]
         }],
     });
