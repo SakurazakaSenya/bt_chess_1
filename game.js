@@ -18,46 +18,52 @@ export default class Game {
 
     initialize() { //initializes new board state
         this.board[0][0] = new piece('R');
-        this.board[0][1] = new piece('N');
-        this.board[0][2] = new piece('B');
-        this.board[0][3] = new piece('Q');
-        this.board[0][4] = new piece('K');
-        this.board[0][5] = new piece('B');
-        this.board[0][6] = new piece('N');
-        this.board[0][7] = new piece('R');
+        this.board[1][0] = new piece('N');
+        this.board[2][0] = new piece('B');
+        this.board[3][0] = new piece('Q');
+        this.board[4][0] = new piece('K');
+        this.board[5][0] = new piece('B');
+        this.board[6][0] = new piece('N');
+        this.board[7][0] = new piece('R');
         for (let i = 0; i<8; i++){
-            this.board[1][i] = new piece('P');
-            this.board[6][i] = new piece('p');
+            this.board[i][1] = new piece('P');
+            this.board[i][6] = new piece('p');
         }
-        this.board[7][0] = new piece('r');
-        this.board[7][1] = new piece('n');
-        this.board[7][2] = new piece('b');
-        this.board[7][3] = new piece('q');
-        this.board[7][4] = new piece('k');
-        this.board[7][5] = new piece('b');
-        this.board[7][6] = new piece('n');
+        this.board[0][7] = new piece('r');
+        this.board[1][7] = new piece('n');
+        this.board[2][7] = new piece('b');
+        this.board[3][7] = new piece('q');
+        this.board[4][7] = new piece('k');
+        this.board[5][7] = new piece('b');
+        this.board[6][7] = new piece('n');
         this.board[7][7] = new piece('r');
         this.startgame()
     }
+
     getFEN() {
-        string = "";
+        let string = "";
         let val = 0;
         for (let i = 7; i>=0; i--) {
             for (let j = 0; j<8; j++) {
-                if (this.board[i][j] == null) {
+                if (this.board[j][i] == null) {
                     val++;
                 }
                 else {
-                    string += val;
-                    val = 0;
-                    string += this.board[i][j].pieceType;
+                    if (val != 0) {
+                        string += val;
+                        val = 0;
+                    }
+                    string += this.board[j][i].pieceType;
+                    
                 }
             }
             if (val != 0) {
                 string += val;
+                val = 0;
             }
             string += "/";
         }
+        string = string.slice(0, -1);
         /*string += " "
         if (this.turn) {
             string += "w";
@@ -97,13 +103,14 @@ export default class Game {
         }
         string += " ";
         string += this.halfmove + " " + this.fullmove;
-        return string;
         */
+       return string;
+        
     }
 
-    startgame() { //should be done? not sure if it works though
-        while (true) {
-            //let input = prompt("Enter Move: ");
+    startgame() {
+        /*while (true) {
+            let input = prompt("Enter Move: ");
             this.move(input);
             if (this.turn) {
                 this.turn = false;
@@ -111,30 +118,25 @@ export default class Game {
             else {
                 this.turn = true;
             }
+        }*/
+    }
+
+    enter(str) {
+        str = str.split(" ");
+        if (!this.move(str[0], str[1])) {
+            console.log("move invalid");
+            return false;
         }
-        /*const input = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-        });
-        input.question('Input move: ', ans => {
-            if (ans == '') { this.startgame();}
-            let res = ans.split(' ');
-            
-            if (!this.move(res)) {this.startgame();}
+        
         if (this.turn) {
             this.turn = false;
         }
         else {
             this.turn = true;
         }
-        this.printPos();
-        this.startgame();
-        })*/
-        
-
     }
+
     printPos() { //Should work fine -- prints the boardstate in console
-        let str = "";
         for (let i = 7; i>=0; i--) {
             for (let j = 0; j<8; j++) {
                 if (this.board[i][j] != null) {
@@ -160,21 +162,29 @@ export default class Game {
         return arr[val];
     }
     move(from, destination) { //from and destinations are Strings in [A1, H8]
-        y1 = this.toInt(from[0]);
-        x1 = this.toInt(from[1]);
-        y2 = this.toInt(destination[0]);
-        x2 = this.toInt(destination[1]);
 
+        let y1 = from[1] - 1;
+        let x1 = this.toInt(from[0]);
+        let y2 = destination[1] - 1;
+        let x2 = this.toInt(destination[0]);
+
+        if (this.board[x1][y1] == null) {
+            console.log("empty square");
+            return false;
+        }
         this.fromPiece = this.board[x1][y1];
-        if (this.fromPiece.getColor() != this.turn) {
+        if (this.fromPiece.color != this.turn) {
+            console.log("moving wrong coloured piece");
             return false;
         }
         if (this.board[x2][y2] != null) {
-            if (this.board[x2][y2].getColor() == this.turn) {
+            if (this.board[x2][y2].color == this.turn) {
+                console.log("capturing own piece");
                 return false;
             }
         }
-        var pMoves = fromPiece.possibleMoves(board, x1, y1);
+        var pMoves = this.fromPiece.possibleMoves(this.board, x1, y1);
+
         var stage2 = false;
         for (let i = 0; i <pMoves.length; i++) {
             if (pMoves[i][0] == x2 && pMoves[i][1] == y2) {
@@ -182,16 +192,19 @@ export default class Game {
             }
         }
         if (!stage2) {
+            console.log("not legal move");
             return false;
         }
         var castling = false;
         var passing = false;
         if ((this.fromPiece.pieceType == 'K' || this.fromPiece.pieceType == 'k') && Math.abs(x2-x1) == 2) { //Castling specifically
             if (x2 - x1 > 0) {
+                console.log(this.castle);
                 if (this.fromPiece.pieceType == 'K') {
                     if (this.castle[0]) {
                     }
                     else {
+                        console.log("castling invalid");
                         return false;
                     }
                 }
@@ -199,6 +212,7 @@ export default class Game {
                     if (this.castle[2]) {
                     }
                     else {
+                        console.log("castling invalid");
                         return false;
                     }
                 }
@@ -208,6 +222,7 @@ export default class Game {
                     if (this.castle[1]) {
                     }
                     else {
+                        console.log("castling invalid");
                         return false;
                     }
                 }
@@ -215,6 +230,7 @@ export default class Game {
                     if (this.castle[3]) {
                     }
                     else {
+                        console.log("castling invalid");
                         return false;
                     }
                 }
@@ -223,23 +239,34 @@ export default class Game {
         }
         if (this.fromPiece.pieceType == 'P' || this.fromPiece.pieceType == 'p') { //Pawn movements
             if (x1 != x2) {
-                if (board[x2][y2] == null) {
-                    if (enPassant[0] != x2 || enPassant[1] != y2) {
+                if (this.board[x2][y2] == null && this.enpassant != null) {
+                    console.log(this.enpassant);
+                    if (this.enpassant[0] != x2 || this.enpassant[1] != y2) {
+                        console.log("invalid enpassant move");
                         return false;
                     }
                     passing = true;
                 }
             }
-            if (board[x2][y2] != null) {
+            if (x1 == x2 && this.board[x2][y2] != null) {
+                console.log("destination square occupied");
                 return false;
             }
             if (Math.abs(y2-y1) > 1) {
-                if (board[x2][Math.abs(y2+y1)/2] != null) {
+                if (this.board[x1][Math.abs(y2+y1)/2] != null) {
+                    console.log("moving too far or blocked");
                     return false;
                 }
             }
         }
-        var fakeBoard = this.board;
+        let fakeBoard = [];
+        for (let i = 0; i< 8; i++) {
+            let temp = [];
+            for (let j = 0; j<8; j++) {
+                temp[j] = this.board[i][j];
+            }
+            fakeBoard[i] = temp;
+        }
         if (castling) {
             if (x2 == 6) {
                 fakeBoard[5][y1] = fakeBoard[x1][y1];
@@ -267,67 +294,77 @@ export default class Game {
             fakeBoard[x1][y1] = null;
         }
         if (passing) {
-            fakeBoard[x2][y2-1] = null;
+            if (this.turn) {
+                fakeBoard[x2][y2-1] = null;
+            }
+            else {
+                fakeBoard[x2][y2+1] = null;
+            }
         }
         if (!this.checkDanger(fakeBoard)) {
+            console.log("check stage 3");
             return false;
         }
 
         this.board = fakeBoard;
         if (castling) {
             if (this.turn) {
-                castle[0] = false;
-                castle[1] = false;
+                this.castle[0] = false;
+                this.castle[1] = false;
             }
             else {
-                castle[2] = false;
-                castle[3] = false;
+                this.castle[2] = false;
+                this.castle[3] = false;
             }
         }
-        if ((this.fromPiece.pieceType == 'p' || this.fromPiece.pieceType == 'P') && y2-y1 > 1) {
+        if ((this.fromPiece.pieceType == 'p' || this.fromPiece.pieceType == 'P') && Math.abs(y2-y1) > 1) {
             if (this.turn) {
-                enpassant = [x2, y2-1];
+                this.enpassant = [x2, y2-1];
             }
             else {
-                enpassant = [x2, y2+1];
+                this.enpassant = [x2, y2+1];
             }
         }
         else {
-            enpassant = [-1, -1];
+            this.enpassant = [-1, -1];
         }
 
-        this.board[x2, y2].moved();
-        if (castle[0] || castle[1]) {
+        this.board[x2][y2].moved();
+        if (this.castle[0] || this.castle[1]) {
             if (this.board[0][0] == null)  {
-                castle[1] = false;
+                this.castle[1] = false;
             }
-            if (this.board[0][7] == null) {
-                castle[0] = false;
+            if (this.board[7][0] == null) {
+                this.castle[0] = false;
             }
-            if (this.board[0][4] == null) {
-                castle[0] = false;
-                castle[1] = false;
+            if (this.board[4][0] == null) {
+                this.castle[0] = false;
+                this.castle[1] = false;
             }
         }
-        if (castle[2] || castle[3]) {
-            if (this.board[7][0] == null)  {
-                castle[2] = false;
+        if (this.castle[2] || this.castle[3]) {
+            if (this.board[7][7] == null)  {
+                this.castle[2] = false;
             }
-            if (this.board[7][7] == null) {
-                castle[3] = false;
+            if (this.board[0][7] == null) {
+                this.castle[3] = false;
             }
-            if (this.board[7][4] == null) {
-                castle[2] = false;
-                castle[3] = false;
+            if (this.board[4][7] == null) {
+                this.castle[2] = false;
+                this.castle[3] = false;
             }
         }
         
         for (let i = 0; i<this.board[0].length; i++) {
-            if (this.board[0][i].pieceType == 'p') {
-                this.board[0][i] = destination[4];
+            if (this.board[i][0] != null) {
+                if (this.board[i][0].pieceType == 'p') {
+                    this.board[i][0] = destination[4];
+                }
             }
-            if (this.board[7][i].pieceType == 'P') {
-                this.board[7][i] = desination[4];
+            if (this.board[i][7] != null) {
+                if (this.board[i][7].pieceType == 'P') {
+                    this.board[i][7] = desination[4];
+                }
             }
         }
         return true;
@@ -339,36 +376,69 @@ export default class Game {
         var y1 = -1;
         for (let i = 0; i<8; i++) {
             for (let j = 0; j< 8; j++) {
-                if ((tempBoard[i][j].pieceType == 'k' || tempBoard[i][j].pieceType == 'K') && tempBoard[i][j].getColor() == this.turn) {
-                    x1 = i;
-                    y1 = j;
+                if (tempBoard[i][j] != null) {
+                    if ((tempBoard[i][j].pieceType == 'k' || tempBoard[i][j].pieceType == 'K') && tempBoard[i][j].color == this.turn) {
+                        x1 = i;
+                        y1 = j;
+                    }
                 }
             }
         }
         var knightMoves, bishopMoves, rookMoves, kingMoves;
-        kingMoves = new piece('K').moved();
+        kingMoves = new piece('K');
+        kingMoves.moved();
+        
         kingMoves = kingMoves.possibleMoves(tempBoard, x1, y1);
         if (this.turn) {
-            knightMoves = new piece('N').possibleMoves(board, x1, y1);
-            bishopMoves = new piece('B').possibleMoves(board, x1, y1);
-            rookMoves = new piece('R').possibleMoves(board, x1, y1);
-            if (board[x-1][y+1].pieceType == 'p' || board[x+1][y+1].pieceType == 'p') {
-                return false;
+
+            knightMoves = new piece('N').possibleMoves(tempBoard, x1, y1);
+            bishopMoves = new piece('B').possibleMoves(tempBoard, x1, y1);
+            rookMoves = new piece('R').possibleMoves(tempBoard, x1, y1);
+            if (y1 < 7) {
+                if (x1 > 0) {
+                    if (tempBoard[x1-1][y1+1] != null) {
+                        if (tempBoard[x1-1][y1+1].pieceType == 'p') {
+                            return false;
+                        }
+                    }
+                }
+                if (x1 < 7) {
+                    if (tempBoard[x1+1][y1+1] != null) {
+                        if (tempBoard[x1+1][y1+1].pieceType == 'p') {
+                            return false;
+                        }
+                    }
+                }
             }
         }
         else {
-            knightMoves = new piece('n').possibleMoves(board, x1, y1);
-            bishopMoves = new piece('b').possibleMoves(board, x1, y1);
-            rookMoves = new piece('r').possibleMoves(board, x1, y1);
-            if (board[x-1][y-1].pieceType == 'P' || board[x-1][y-1].pieceType == 'p') {
-                return false;
+
+            knightMoves = new piece('n').possibleMoves(tempBoard, x1, y1);
+            bishopMoves = new piece('b').possibleMoves(tempBoard, x1, y1);
+            rookMoves = new piece('r').possibleMoves(tempBoard, x1, y1);
+            if (y1 > 0) {
+                if (x1 > 0) {
+                    if (tempBoard[x1-1][y1-1] != null) {
+                        if (tempBoard[x1-1][y1-1].pieceType == 'P') {
+                            return false;
+                        }
+                    }
+                }
+                if (x1 < 7) {
+                    if (tempBoard[x1+1][y1-1] != null) {
+                        if (tempBoard[x1+1][y1-1].pieceType == 'P') {
+                            return false;
+                        }
+                    }
+                }
             }
         }
         var square;
+
         for (let i = 0; i < knightMoves.length; i++) {
-            square = board[knightMoves[i][0]][knightMoves[i][1]];
+            square = tempBoard[knightMoves[i][0]][knightMoves[i][1]];
             if (square != null) {
-                if (square.getColor() != this.turn) {
+                if (square.color != this.turn) {
                     if (square.pieceType == 'N' || square.pieceType == 'n') {
                         return false;
                     }
@@ -376,9 +446,9 @@ export default class Game {
             }
         }
         for (let i = 0; i < bishopMoves.length; i++) {
-            square = board[bishopMoves[i][0]][bishopMoves[i][1]];
+            square = tempBoard[bishopMoves[i][0]][bishopMoves[i][1]];
             if (square != null) {
-                if (square.getColor() != this.turn) {
+                if (square.color != this.turn) {
                     if ((square.pieceType == 'B' || square.pieceType == 'b') || (square.pieceType == 'Q' || square.pieceType == 'q')) {
                         return false;
                     }
@@ -386,9 +456,9 @@ export default class Game {
             }
         }
         for (let i = 0; i < rookMoves.length; i++) {
-            square = board[rookMoves[i][0]][rookMoves[i][1]];
+            square = tempBoard[rookMoves[i][0]][rookMoves[i][1]];
             if (square != null) {
-                if (square.getColor() != this.turn) {
+                if (square.color != this.turn) {
                     if ((square.pieceType == 'R' || square.pieceType == 'r') || (square.pieceType == 'Q' || square.pieceType == 'q')) {
                         return false;
                     }
@@ -396,9 +466,9 @@ export default class Game {
             }
         }
         for (let i = 0; i < kingMoves.length; i++) {
-            square = board[kingMoves[i][0]][kingMoves[i][1]];
+            square = tempBoard[kingMoves[i][0]][kingMoves[i][1]];
             if (square != null) {
-                if (square.getColor() != this.turn) {
+                if (square.color != this.turn) {
                     if (square.pieceType == 'K' || square.pieceType == 'k')  {
                         return false;
                     }
