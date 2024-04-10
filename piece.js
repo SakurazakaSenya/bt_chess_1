@@ -3,19 +3,17 @@ export default class piece {
     constructor(pieceType) {
         this.pieceType = pieceType;
         if (this.lowercase(pieceType) == pieceType) {
-        this.color = false;
+            this.color = false;
         }
         else {
-        this.color = true;
+            this.color = true;
         }
         this.hasMoved = false;
     }
-    get getColor() {
-        return this.color;
-    }
+
 
     moved() {
-        hasMoved = true;
+        this.hasMoved = true;
     }
     possibleMoves(board, x, y) {
         let temp = [];
@@ -42,8 +40,10 @@ export default class piece {
                     temp.push(square);
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                        }
                     }
                     break;
                 }
@@ -58,8 +58,10 @@ export default class piece {
                     temp.push(square);
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                        }
                     }
                     break;
                 }
@@ -74,8 +76,10 @@ export default class piece {
                     temp.push(square);
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                        }
                     }
                     break;
                 }
@@ -88,10 +92,13 @@ export default class piece {
                 square = [x1, y1];
                 if (board[x1][y1] == null) {
                     temp.push(square);
+                    
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                        }
                     }
                     break;
                 }
@@ -111,57 +118,74 @@ export default class piece {
                     temp.push(square);
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                        }
                     }
                     break;
                 }
             }
             x1 = x;
+            y1 = y;
             while (x1 < 7) {
                 x1++;
                 square = [x1, y1];
                 if (board[x1][y1] == null) {
                     temp.push(square);
+
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                            
+                        }
                     }
                     break;
                 }
             }
             x1 = x;
+            y1 = y;
             while (y1 < 7) {
                 y1++;
                 square = [x1, y1];
                 if (board[x1][y1] == null) {
                     temp.push(square);
+                    
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                            
+                        }
                     }
                     break;
                 }
             }
             y1 = y;
+            x1 = x;
             while (y1 > 0) {
                 y1--;
                 square = [x1, y1];
                 if (board[x1][y1] == null) {
                     temp.push(square);
+                    
                 }
                 else {
-                    if (board[x1][y1].getColor() != board[x, y].getColor()) {
-                        temp.push(square);
+                    if (board[x][y] != null) {
+                        if (board[x1][y1].color != board[x][y].color) {
+                            temp.push(square);
+                            
+                        }
                     }
                     break;
                 }
             }
         }
         if (this.pieceType == 'P') {
-            if (this.hasMoved() == false) {
+            if (this.hasMoved == false) {
                 temp = [[x,y+1], [x,y+2], [x+1, y+1], [x-1, y+1]];
             }
             else {
@@ -169,19 +193,39 @@ export default class piece {
             }
         }
         if (this.pieceType == 'p') {
-            if (this.hasMoved() == false) {
+            if (this.hasMoved == false) {
                 temp = [[x, y-1], [x, y-2], [x+1, y-1], [x-1, y-1]];
             }
             else {
                 temp = [[x, y-1], [x+1, y-1], [x-1, y-1]];
             }
         }
+        let arr = [];
         for (let i = 0; i< temp.length; i++) {
             if ((temp[i][0] < 0 || temp[i][0] > 7) || (temp[i][1] < 0 || temp[i][1] > 7)) {
-                temp[i] = null;
+            }
+            else {
+                arr.push(temp[i]);
+                console.log(this.toChar(temp[i][0]) + " " + (temp[i][1]+1));
+                
             }
         }
-        return temp;
+        console.log(this.pieceType);
+        return arr;
+    }
+
+    toInt(val) {
+        let arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        for (let i = 0; i<8; i++) {
+            if (arr[i] == val)  {
+                return i;
+            }
+        }
+        return -1;
+    }
+    toChar(val) {
+        let arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        return arr[val];
     }
 
     lowercase(letter) {
