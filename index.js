@@ -12,12 +12,13 @@ var board = ChessBoard('chessboard', {
 let pos = game.getFEN();
 board.position(pos);
 
-document.getElementById('input').onkeypress = function(e) {
+/*document.getElementById('input').onkeypress = function(e) {
     if (e.keyCode == 13) {
         entered(document.getElementById('input').value);
         document.getElementById('input').value = "";
     }
-};
+};*/
+
 function entered(input) {
     console.log(input)
     game.enter(input);
@@ -67,7 +68,8 @@ function read(event) {
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
-
+    alert("Received something");
+    alert(event.value);
     let newNode = document.createElement('p');
     newNode.classList.add("received-message");
     newNode.textContent = decodedMessage;
