@@ -68,8 +68,9 @@ function read(event) {
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
+    entered(decodedMessage);
     alert("Received something");
-    alert(event.value);
+    alert(decodedMessage);
     let newNode = document.createElement('p');
     newNode.classList.add("received-message");
     newNode.textContent = decodedMessage;
