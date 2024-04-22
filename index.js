@@ -71,15 +71,6 @@ function read(event) {
     //entered(decodedMessage);
     alert("Received something");
     alert(decodedMessage);
-    let newNode = document.createElement('p');
-    newNode.classList.add("received-message");
-    newNode.textContent = decodedMessage;
-
-
-    document.getElementById("terminal").appendChild(newNode);
-
-    let placeholder = document.getElementsByClassName('placeholder');
-    if(placeholder.length != 0) placeholder[0].remove();
 }
 
 async function write(event){
