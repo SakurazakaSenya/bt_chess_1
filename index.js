@@ -21,9 +21,15 @@ document.getElementById('input').onkeypress = function(e) {
 
 function entered(input) {
     console.log(input)
-    game.enter(input);
+    if (game.enter(input)) {
+        board.position(game.getFEN());
+        return true;
+    }
+    else {
+        return false;
+    }
     //game.printPos();
-    board.position(game.getFEN());
+    
 }
     
 
@@ -69,11 +75,11 @@ function read(event) {
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
     let temp = true;
-    if (entered(decodedMessage) == -1) {
-        document.getElementById("message-input").value == "-1";
+    if (entered(decodedMessage)) {
+        document.getElementById("message-input").value == "1";
     }
     else {
-        document.getElementById("message-input").value == "1";
+        document.getElementById("message-input").value == "-1";
     }
     write();
 }
