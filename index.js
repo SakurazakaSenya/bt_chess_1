@@ -76,10 +76,10 @@ function read(event) {
     let decodedMessage = String.fromCharCode.apply(null, view);
     let temp = true;
     if (entered(decodedMessage)) {
-        document.getElementById("message-input").value == "1";
+        document.getElementById("message-input").value = "1";
     }
     else {
-        document.getElementById("message-input").value == "-1";
+        document.getElementById("message-input").value = "-1";
     }
     write();
 }
