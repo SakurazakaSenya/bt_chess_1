@@ -12,12 +12,12 @@ var board = ChessBoard('chessboard', {
 let pos = game.getFEN();
 board.position(pos);
 
-/*document.getElementById('input').onkeypress = function(e) {
+document.getElementById('input').onkeypress = function(e) {
     if (e.keyCode == 13) {
         entered(document.getElementById('input').value);
         document.getElementById('input').value = "";
     }
-};*/
+};
 
 function entered(input) {
     console.log(input)
@@ -68,9 +68,14 @@ function read(event) {
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
-    //entered(decodedMessage);
-    alert("Received something");
-    alert(decodedMessage);
+    let temp = true;
+    if (entered(decodedMessage) == -1) {
+        document.getElementById("message-input").value == "-1";
+    }
+    else {
+        document.getElementById("message-input").value == "1";
+    }
+    write();
 }
 
 async function write(event){
@@ -87,5 +92,5 @@ async function write(event){
 }
 
 document.getElementById('connect').addEventListener("click", connect);
-document.getElementById('send').addEventListener("click", write);
+//document.getElementById('send').addEventListener("click", write);
 
