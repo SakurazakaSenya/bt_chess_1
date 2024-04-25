@@ -134,6 +134,7 @@ export default class Game {
         else {
             this.turn = true;
         }
+        return true;
     }
 
     printPos() { //Should work fine -- prints the boardstate in console
