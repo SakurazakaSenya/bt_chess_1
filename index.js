@@ -76,6 +76,7 @@ function read(event) {
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
     let temp = true;
+    console.log("Message received!");
     if (entered(decodedMessage)) {
         document.getElementById("message-input").value = "1";
     }
