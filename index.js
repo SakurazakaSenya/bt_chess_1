@@ -23,6 +23,7 @@ function entered(input) {
     console.log(input)
     if (game.enter(input)) {
         board.position(game.getFEN());
+        console.log(game.getFEN());
         return true;
     }
     else {
