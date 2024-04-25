@@ -53,7 +53,7 @@ async function connect(){
     const service = await server.getPrimaryService(serviceUUID);
 
     serialCharacteristic = await service.getCharacteristic(serialUUID);
-    console.log("before notifications");
+    console.log(serialCharacteristic);
     await serialCharacteristic.startNotifications();
     console.log("connected");
     serialCharacteristic.addEventListener('characteristicvaluechanged', read);
@@ -72,6 +72,7 @@ function disconnect(){
 }
 
 function read(event) {
+    console.log("begun reading");
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
