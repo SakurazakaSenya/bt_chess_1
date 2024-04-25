@@ -23,7 +23,7 @@ function entered(input) {
     console.log(input)
     if (game.enter(input)) {
         board.position(game.getFEN());
-        console.log(game.getFEN());
+        //console.log(game.getFEN());
         return true;
     }
     else {
@@ -82,6 +82,7 @@ function read(event) {
     else {
         document.getElementById("message-input").value = "-1";
     }
+    console.log(document.getElementById("message-input").value);
     write();
 }
 
@@ -90,12 +91,13 @@ async function write(event){
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
     let encodedMessage = new Uint8Array(buffer);
-    
+    console.log("writing in processs");
     for(let i=0; i<message.length; i++){
         encodedMessage[i] = message.charCodeAt(i);
     }
 
     await serialCharacteristic.writeValue(encodedMessage);
+    console.log("Writing complete!");
 }
 
 document.getElementById('connect').addEventListener("click", connect);
