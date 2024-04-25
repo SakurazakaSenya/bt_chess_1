@@ -16,6 +16,7 @@ document.getElementById('input').onkeypress = function(e) {
     if (e.keyCode == 13) {
         entered(document.getElementById('input').value);
         document.getElementById('input').value = "";
+        console.log(serialCharacteristic);
     }
 };
 
