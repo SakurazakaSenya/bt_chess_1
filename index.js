@@ -104,5 +104,5 @@ async function write(event){
 }
 
 document.getElementById('connect').addEventListener("click", connect);
-//document.getElementById('send').addEventListener("click", write);
+document.getElementById('send').addEventListener("click", write);
 
