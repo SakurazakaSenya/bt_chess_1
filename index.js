@@ -55,7 +55,7 @@ async function connect(){
     serialCharacteristic = await service.getCharacteristic(serialUUID);
 
     await serialCharacteristic.startNotifications();
-
+    console.log("connected");
     serialCharacteristic.addEventListener('characteristicvaluechanged', read);
 
     document.getElementById('connect').removeEventListener("click", connect);
