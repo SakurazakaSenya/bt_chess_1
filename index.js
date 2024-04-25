@@ -48,12 +48,12 @@ async function connect(){
             services: [serviceUUID]
         }],
     });
-
+    console.log("before server");
     const server = await device.gatt.connect();
     const service = await server.getPrimaryService(serviceUUID);
 
     serialCharacteristic = await service.getCharacteristic(serialUUID);
-
+    console.log("before notifications");
     await serialCharacteristic.startNotifications();
     console.log("connected");
     serialCharacteristic.addEventListener('characteristicvaluechanged', read);
