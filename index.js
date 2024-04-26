@@ -86,7 +86,7 @@ function read(event) {
         document.getElementById("message-input").value = "-1";
     }
     console.log(document.getElementById("message-input").value);
-    write();
+    //write();
 }
 
 async function write(event){
