@@ -90,16 +90,17 @@ function read(event) {
 }
 
 async function write(event){
+    alert("writing in processs");
     let message = document.getElementById("message-input").value;
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
     let encodedMessage = new Uint8Array(buffer);
-    alert("writing in processs");
+    
     for(let i=0; i<message.length; i++){
         encodedMessage[i] = message.charCodeAt(i);
     }
 
-    await serialCharacteristic.writeValue(encodedMessage);
+    //await serialCharacteristic.writeValue(encodedMessage);
     alert("Writing complete!");
     document.getElementById("message-input").value = null;
 }
