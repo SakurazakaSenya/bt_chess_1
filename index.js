@@ -101,6 +101,7 @@ async function write(event){
 
     await serialCharacteristic.writeValue(encodedMessage);
     console.log("Writing complete!");
+    document.getElementById("message-input").value = null;
 }
 
 document.getElementById('connect').addEventListener("click", connect);
