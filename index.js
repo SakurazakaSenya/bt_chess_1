@@ -94,7 +94,7 @@ async function write(event){
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
     let encodedMessage = new Uint8Array(buffer);
-    console.log("writing in processs");
+    alert("writing in processs");
     for(let i=0; i<message.length; i++){
         encodedMessage[i] = message.charCodeAt(i);
     }
