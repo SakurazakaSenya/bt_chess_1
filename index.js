@@ -100,7 +100,7 @@ async function write(event){
     }
 
     //await serialCharacteristic.writeValue(encodedMessage);
-    alert(encodedmessage);
+    
     document.getElementById("message-input").value = null;
 }
 
