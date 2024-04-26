@@ -86,11 +86,10 @@ function read(event) {
         document.getElementById("message-input").value = "-1";
     }
     console.log(document.getElementById("message-input").value);
-    //write();
+    write();
 }
 
 async function write(event){
-    alert("writing in processs");
     let message = document.getElementById("message-input").value;
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
@@ -100,7 +99,7 @@ async function write(event){
         encodedMessage[i] = message.charCodeAt(i);
     }
 
-    //await serialCharacteristic.writeValue(encodedMessage);
+    await serialCharacteristic.writeValue(encodedMessage);
     alert("Writing complete!");
     document.getElementById("message-input").value = null;
 }
