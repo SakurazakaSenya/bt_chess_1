@@ -58,6 +58,7 @@ async function connect(){
     await serialCharacteristic.startNotifications();
     console.log("connected");
     serialCharacteristic.addEventListener('characteristicvaluechanged', read);
+    document.getElementById('send').addEventListener("click", writing);
 
     document.getElementById('connect').removeEventListener("click", connect);
     document.getElementById('connect').addEventListener("click", disconnect);
@@ -106,7 +107,6 @@ async function write(event){
 
 document.getElementById('connect').addEventListener("click", connect);
 document.getElementById('send').addEventListener("click", write);
-document.getElementById('send').addEventListener("click", writing);
  function writing(event) {
      alert("button is working");
  }
