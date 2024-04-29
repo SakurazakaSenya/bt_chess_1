@@ -80,10 +80,10 @@ function read(event) {
     let temp = true;
     console.log("Message received!");
     if (entered(decodedMessage)) {
-        document.getElementById("message-input").value = "1";
+        document.getElementById("message-input").value = "legal";
     }
     else {
-        document.getElementById("message-input").value = "-1";
+        document.getElementById("message-input").value = "illegal";
     }
     console.log(document.getElementById("message-input").value);
     write();
