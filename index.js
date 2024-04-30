@@ -90,6 +90,7 @@ function read(event) {
 }
 
 async function write(event){
+    alert("writing");
     let message = document.getElementById("message-input").value;
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
