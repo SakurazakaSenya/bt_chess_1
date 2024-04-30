@@ -86,7 +86,6 @@ function read(event) {
         document.getElementById("message-input").value = "illegal";
     }
     console.log(document.getElementById("message-input").value);
-    write();
 }
 
 async function write(event){
