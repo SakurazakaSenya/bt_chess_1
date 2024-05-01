@@ -80,12 +80,23 @@ function read(event) {
     let temp = true;
     alert("Message received!");
     if (entered(decodedMessage)) {
-        document.getElementById("message-input").value = "legal";
+        let message = "legal";
     }
     else {
-        document.getElementById("message-input").value = "illegal";
+        let message = "illegal";
     }
-    console.log(document.getElementById("message-input").value);
+    alert(message);
+    customWrite(message);
+}
+async function customWrite(message) {
+    let buffer = ArrayBuffer(message.length);
+    let encodedMessage = new Uint8Array(buffer);
+    for(let i=0; i<message.length; i++){
+        encodedMessage[i] = message.charCodeAt(i);
+    }
+
+    await serialCharacteristic.writeValue(encodedMessage);
+    
 }
 
 async function write(event){
