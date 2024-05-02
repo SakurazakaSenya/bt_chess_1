@@ -74,6 +74,7 @@ function disconnect(){
 }
 
 function read(event) {
+    console.log("reading");
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
