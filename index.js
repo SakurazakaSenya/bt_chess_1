@@ -45,24 +45,25 @@ let serialCharacteristic;
 async function connect(){
 
     device = await navigator.bluetooth.requestDevice({
-        filters: [{
+        filters: [{ 
             services: [serviceUUID]
         }],
     });
-    console.log("before server");
+
     const server = await device.gatt.connect();
     const service = await server.getPrimaryService(serviceUUID);
 
     serialCharacteristic = await service.getCharacteristic(serialUUID);
-    console.log(serialCharacteristic);
+
     await serialCharacteristic.startNotifications();
-    console.log("connected");
+
     serialCharacteristic.addEventListener('characteristicvaluechanged', read);
 
     document.getElementById('connect').removeEventListener("click", connect);
     document.getElementById('connect').addEventListener("click", disconnect);
     document.getElementById('connect').textContent = "Disconnect";
 }
+
 
 function disconnect(){
     device.gatt.disconnect();
@@ -73,21 +74,20 @@ function disconnect(){
 }
 
 function read(event) {
-    console.log("begun reading");
     let buffer = event.target.value.buffer;
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
-    let temp = true;
-    alert("Message received!");
-    if (entered(decodedMessage)) {
-        let message = "legal";
-    }
-    else {
-        let message = "illegal";
-    }
-    alert(message);
-    customWrite(message);
+
+    let newNode = document.createElement('p');
+    newNode.classList.add("received-message");
+    newNode.textContent = decodedMessage;
+
+    document.getElementById("terminal").appendChild(newNode);
+
+    let placeholder = document.getElementsByClassName('placeholder');
+    if(placeholder.length != 0) placeholder[0].remove();
 }
+
 async function customWrite(message) {
     let buffer = ArrayBuffer(message.length);
     let encodedMessage = new Uint8Array(buffer);
@@ -100,7 +100,6 @@ async function customWrite(message) {
 }
 
 async function write(event){
-    //alert("writing");
     let message = document.getElementById("message-input").value;
     message += '\n';
     let buffer = new ArrayBuffer(message.length);
@@ -111,9 +110,9 @@ async function write(event){
     }
 
     await serialCharacteristic.writeValue(encodedMessage);
-
     document.getElementById("message-input").value = null;
 }
+
 
 document.getElementById('connect').addEventListener("click", connect);
 document.getElementById('send').addEventListener("click", write);
