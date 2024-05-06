@@ -79,7 +79,6 @@ function read(event) {
     let view = new Uint8Array(buffer);
     let decodedMessage = String.fromCharCode.apply(null, view);
 
-    /*
     let newNode = document.createElement('p');
     newNode.classList.add("received-message");
     newNode.textContent = decodedMessage;
@@ -88,7 +87,6 @@ function read(event) {
 
     let placeholder = document.getElementsByClassName('placeholder');
     if(placeholder.length != 0) placeholder[0].remove();
-    */
     
     alert(decodedMessage);
 }
