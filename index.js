@@ -89,12 +89,7 @@ function read(event) {
     let placeholder = document.getElementsByClassName('placeholder');
     if(placeholder.length != 0) placeholder[0].remove();
     */
-    if (entered(decodedMessage)) {
-        customWrite("legal");
-    }
-    else {
-        customWrite("illegal");
-    }
+    
     alert(decodedMessage);
 }
 
