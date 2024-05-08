@@ -21,13 +21,15 @@ document.getElementById('input').onkeypress = function(e) {
 };
 
 function entered(input) {
-    alert(input);
+    //alert(input);
     if (game.enter(input)) {
+        alert(game.getFEN());
         board.position(game.getFEN());
         //console.log(game.getFEN());
         return true;
     }
     else {
+        alert("bad");
         return false;
     }
     //game.printPos();
