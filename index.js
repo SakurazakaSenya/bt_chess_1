@@ -1,4 +1,4 @@
-import ChessBoard from './chessboard';
+geimport ChessBoard from './chessboard';
 import Game from './game.js';
 import './style.css';
 
@@ -93,6 +93,7 @@ function read(event) {
 }
 
 async function customWrite(message) {
+    message += "\n";
     let buffer = ArrayBuffer(message.length);
     let encodedMessage = new Uint8Array(buffer);
     for(let i=0; i<message.length; i++){
