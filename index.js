@@ -90,7 +90,7 @@ function read(event) {
     
     //alert(decodedMessage);
     let msg = "";
-    if (entered(msg)) {
+    if (entered(decodedMessage)) {
         msg = "legal";
     }
     else {
