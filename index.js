@@ -89,6 +89,7 @@ function read(event) {
     if(placeholder.length != 0) placeholder[0].remove();
     
     alert(decodedMessage);
+    customWrite("received!");
 }
 
 async function customWrite(message) {
