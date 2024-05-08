@@ -96,6 +96,7 @@ function read(event) {
     else {
         msg = "illegal";
     }
+    alert(msg);
     writeB(msg);
 }
 
