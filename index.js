@@ -88,8 +88,15 @@ function read(event) {
     let placeholder = document.getElementsByClassName('placeholder');
     if(placeholder.length != 0) placeholder[0].remove();
     
-    alert(decodedMessage);
-    writeB("received!");
+    //alert(decodedMessage);
+    let msg = "";
+    if (entered(msg)) {
+        msg = "legal";
+    }
+    else {
+        msg = "illegal";
+    }
+    writeB(msg);
 }
 
 
