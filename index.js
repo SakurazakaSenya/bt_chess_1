@@ -89,20 +89,11 @@ function read(event) {
     if(placeholder.length != 0) placeholder[0].remove();
     
     alert(decodedMessage);
-    customWrite("received!");
+    document.getElementById("message-input").value = "received!";
+    write();
 }
 
-async function customWrite(message) {
-    message += "\n";
-    let buffer = ArrayBuffer(message.length);
-    let encodedMessage = new Uint8Array(buffer);
-    for(let i=0; i<message.length; i++){
-        encodedMessage[i] = message.charCodeAt(i);
-    }
 
-    await serialCharacteristic.writeValue(encodedMessage);
-    
-}
 
 async function write(event){
     let message = document.getElementById("message-input").value;
