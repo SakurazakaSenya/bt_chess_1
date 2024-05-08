@@ -89,8 +89,7 @@ function read(event) {
     if(placeholder.length != 0) placeholder[0].remove();
     
     alert(decodedMessage);
-    document.getElementById("message-input").value = "received!";
-    
+    writeB("received!");
 }
 
 
@@ -109,6 +108,18 @@ async function write(event){
     document.getElementById("message-input").value = null;
 }
 
+async function writeB(msg){
+    let message = msg;
+    message += '\n';
+    let buffer = new ArrayBuffer(message.length);
+    let encodedMessage = new Uint8Array(buffer);
+    
+    for(let i=0; i<message.length; i++){
+        encodedMessage[i] = message.charCodeAt(i);
+    }
+
+    await serialCharacteristic.writeValue(encodedMessage);
+}
 
 document.getElementById('connect').addEventListener("click", connect);
 document.getElementById('send').addEventListener("click", write);
