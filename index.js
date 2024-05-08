@@ -90,7 +90,7 @@ function read(event) {
     
     alert(decodedMessage);
     document.getElementById("message-input").value = "received!";
-    write();
+    
 }
 
 
