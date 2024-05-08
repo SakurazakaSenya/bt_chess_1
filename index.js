@@ -1,4 +1,4 @@
-geimport ChessBoard from './chessboard';
+import ChessBoard from './chessboard';
 import Game from './game.js';
 import './style.css';
 
