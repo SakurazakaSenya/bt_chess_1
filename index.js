@@ -21,7 +21,7 @@ document.getElementById('input').onkeypress = function(e) {
 };
 
 function entered(input) {
-    console.log(input)
+    alert(input);
     if (game.enter(input)) {
         board.position(game.getFEN());
         //console.log(game.getFEN());
