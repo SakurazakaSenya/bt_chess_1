@@ -92,7 +92,7 @@ function read(event) {
     
     //alert(decodedMessage);
     let msg = "";
-    if (entered(decodedMessage)) {
+    if (entered(decodedMessage.toLowerCase())) {
         msg = "legal";
     }
     else {
