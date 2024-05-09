@@ -23,13 +23,13 @@ document.getElementById('input').onkeypress = function(e) {
 function entered(input) {
     //alert(input);
     if (game.enter(input)) {
-        alert(game.getFEN());
+        //alert(game.getFEN());
         board.position(game.getFEN());
         //console.log(game.getFEN());
         return true;
     }
     else {
-        alert("bad");
+        //alert("bad");
         return false;
     }
     //game.printPos();
@@ -98,7 +98,7 @@ function read(event) {
     else {
         msg = "illegal";
     }
-    alert(msg);
+    //alert(msg);
     writeB(msg);
 }
 
