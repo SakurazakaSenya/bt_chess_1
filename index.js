@@ -85,7 +85,7 @@ function read(event) {
     newNode.classList.add("received-message");
     newNode.textContent = decodedMessage;
 
-    document.getElementById("terminal").appendChild(newNode);
+    //document.getElementById("terminal").appendChild(newNode);
 
     let placeholder = document.getElementsByClassName('placeholder');
     if(placeholder.length != 0) placeholder[0].remove();
